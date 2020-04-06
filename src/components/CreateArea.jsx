@@ -1,10 +1,21 @@
 import React, { useState } from "react";
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
+import Zoom from '@material-ui/core/Zoom';
+
+
 
 function CreateArea(props) {
   const [noteData, updateNoteData] = useState({
     title: "",
     body: ""
   });
+
+  const [zoomStatus, updateZoom] = useState(false);
+
+  function zoomHandler(){
+    updateZoom(true);
+  }
 
   function addData(event) {
     const { name, value } = event.target;
@@ -28,21 +39,25 @@ function CreateArea(props) {
 
   return (
     <div>
-      <form>
+      <form className="create-note">
         <input
+        onClick={zoomHandler}
           onChange={addData}
           name="title"
           placeholder="Title"
           value={noteData.title}
         />
-        <textarea
+     {zoomStatus ? 
+           <textarea
           onChange={addData}
           name="body"
           placeholder="Take a note..."
-          rows="3"
+          rows="1"
           value={noteData.body}
-        />
-        <button onClick={clickEvent}>Add</button>
+        /> : null}
+        <Zoom in={true}>
+        <Fab onClick={clickEvent}> <AddIcon /> </Fab>
+        </Zoom>
       </form>
     </div>
   );
